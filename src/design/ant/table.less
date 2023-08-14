@@ -44,6 +44,10 @@
         .ant-table {
           .ant-table-content {
             .ant-table-scroll {
+              .ant-table-hide-scrollbar {
+                //overflow-x: auto !important;
+              }
+
               .ant-table-body {
                 overflow: auto !important;
               }
@@ -70,3 +74,37 @@
     }
   }
 }
+// table 规范定制
+
+.ant-table-thead > tr {
+  th {
+    position: relative;
+    padding: 9px 16px !important;
+    overflow-wrap: break-word;
+  }
+
+  th.ant-table-selection-column,
+  td.ant-table-selection-column {
+    // padding-right: 0 !important;
+    padding-left: 8px !important;
+    text-align: center;
+  }
+}
+
+.ant-table-body {
+  overflow-y: auto !important;
+  color: @text-color-secondary;
+
+  .delete-btn:hover {
+    border-color: @error-color-deprecated-border !important;
+    color: @error-color !important;
+  }
+}
+
+.ant-table-empty {
+  .ant-table-tbody > tr > td {
+    border-bottom: 1px solid transparent;
+  }
+}
+
+//table 规范定制

@@ -1,5 +1,7 @@
 // button reset
 .ant-btn {
+  // margin-right: 8px;
+
   &-link:hover,
   &-link:focus,
   &-link:active {
@@ -17,8 +19,10 @@
     }
   }
 
-  &-primary:not(&-background-ghost):not([disabled]) {
-    color: @white;
+  &-primary:not(&-background-ghost) {
+    &:not([disabled]) {
+      color: @white;
+    }
   }
 
   &-default {
@@ -281,5 +285,14 @@
       border-color: transparent;
       color: @button-ghost-hover-color;
     }
+  }
+}
+
+.senior-search-btn {
+  margin-left: 3px;
+  padding: 4px 16px !important;
+
+  i {
+    margin-left: 4px !important;
   }
 }

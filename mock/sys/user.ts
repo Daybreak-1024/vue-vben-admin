@@ -5,8 +5,8 @@ export function createFakeUserList() {
   return [
     {
       userId: '1',
-      username: 'vben',
-      realName: 'Vben Admin',
+      username: 'medo',
+      realName: 'medo Admin',
       avatar: '',
       desc: 'manager',
       password: '123456',
@@ -108,7 +108,7 @@ export default [
       if (!checkUser) {
         return resultError('Invalid token!');
       }
-      return resultSuccess(undefined, { message: 'Token has been destroyed' });
+      return resultSuccess(undefined, { msg: 'Token has been destroyed' });
     },
   },
   {

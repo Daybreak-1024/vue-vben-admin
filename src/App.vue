@@ -3,6 +3,9 @@
     <AppProvider>
       <RouterView />
     </AppProvider>
+    <template #renderEmpty>
+      <Empty :image="emptyImg" />
+    </template>
   </ConfigProvider>
 </template>
 
@@ -12,6 +15,7 @@
   import { useTitle } from '@/hooks/web/useTitle';
   import { useLocale } from '@/locales/useLocale';
   import 'dayjs/locale/zh-cn';
+  import emptyImg from '@/assets/images/empty-data.png';
 
   // support Multi-language
   const { getAntdLocale } = useLocale();
