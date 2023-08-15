@@ -9,7 +9,13 @@ enum Api {
   GetUserInfo = '/getUserInfo',
   GetPermCode = '/getPermCode',
   TestRetry = '/testRetry',
+  Error = '/error',
 }
+/**
+ * @description: Trigger ajax error
+ */
+
+export const fireErrorApi = () => defHttp.get({ url: Api.Error });
 
 /**
  * @description: user login api

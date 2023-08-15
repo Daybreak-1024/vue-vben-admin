@@ -1,6 +1,6 @@
 export default {
   dashboard: 'Dashboard',
-  about: '关于',
+  error: 'ERROR',
   workbench: '工作台',
   analysis: '分析页',
 };

@@ -23,6 +23,15 @@ const dashboard: AppRouteModule = {
         title: t('routes.dashboard.analysis'),
       },
     },
+    // {
+    //   path: 'error',
+    //   name: 'Error',
+    //   component: () => import('/@/views/sys/error-log/index.vue'),
+    //   meta: {
+    //     // affix: true,
+    //     title: t('routes.dashboard.error'),
+    //   },
+    // },
   ],
 };
 
