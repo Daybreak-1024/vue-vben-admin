@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-  import { type Recordable } from '@vben/types';
+  import { type Recordable } from '@medo/types';
   import {
     type PropType,
     computed,

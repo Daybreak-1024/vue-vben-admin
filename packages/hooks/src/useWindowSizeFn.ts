@@ -1,4 +1,4 @@
-import { type AnyFunction } from '@vben/types';
+import { type AnyFunction } from '@medo/types';
 import { tryOnMounted, tryOnUnmounted, useDebounceFn } from '@vueuse/core';
 
 interface UseWindowSizeOptions {

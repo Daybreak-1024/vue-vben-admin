@@ -23,7 +23,7 @@
   import { Radio } from 'ant-design-vue';
   import { isFunction } from '/@/utils/is';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
-  import { useAttrs } from '@vben/hooks';
+  import { useAttrs } from '@medo/hooks';
   import { propTypes } from '/@/utils/propTypes';
   import { get, omit } from 'lodash-es';
   import { useI18n } from '/@/hooks/web/useI18n';

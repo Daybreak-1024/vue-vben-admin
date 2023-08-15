@@ -1,17 +1,17 @@
 {
-  "name": "vben-admin",
+  "name": "medo-admin",
   "version": "2.10.0",
-  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "homepage": "https://github.com/medojs/vue-medo-admin",
   "bugs": {
-    "url": "https://github.com/vbenjs/vue-vben-admin/issues"
+    "url": "https://github.com/medojs/vue-medo-admin/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vbenjs/vue-vben-admin.git"
+    "url": "git+https://github.com/medojs/vue-medo-admin.git"
   },
   "license": "MIT",
   "author": {
-    "name": "vben",
+    "name": "medo",
     "email": "anncwb@126.com",
     "url": "https://github.com/anncwb"
   },
@@ -69,7 +69,7 @@
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
     "@iconify/iconify": "^3.1.1",
-    "@vben/hooks": "workspace:*",
+    "@medo/hooks": "workspace:*",
     "@vue/shared": "^3.3.4",
     "@vueuse/core": "^10.2.1",
     "@vueuse/shared": "^10.2.1",
@@ -100,6 +100,11 @@
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
     "@iconify/json": "^2.2.87",
+    "@medo/eslint-config": "workspace:*",
+    "@medo/stylelint-config": "workspace:*",
+    "@medo/ts-config": "workspace:*",
+    "@medo/types": "workspace:*",
+    "@medo/vite-config": "workspace:*",
     "@purge-icons/generated": "^0.9.0",
     "@types/lodash-es": "^4.17.7",
     "@types/mockjs": "^1.0.7",
@@ -107,11 +112,6 @@
     "@types/qrcode": "^1.5.1",
     "@types/qs": "^6.9.7",
     "@types/sortablejs": "^1.15.1",
-    "@vben/eslint-config": "workspace:*",
-    "@vben/stylelint-config": "workspace:*",
-    "@vben/ts-config": "workspace:*",
-    "@vben/types": "workspace:*",
-    "@vben/vite-config": "workspace:*",
     "@vue/compiler-sfc": "^3.3.4",
     "@vue/test-utils": "^2.4.0",
     "cross-env": "^7.0.3",

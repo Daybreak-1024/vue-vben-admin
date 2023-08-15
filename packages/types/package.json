@@ -1,13 +1,13 @@
 {
-  "name": "@vben/types",
+  "name": "@medo/types",
   "version": "1.0.0",
-  "homepage": "https://github.com/vbenjs/vue-vben-admin",
+  "homepage": "https://github.com/medojs/vue-medo-admin",
   "bugs": {
-    "url": "https://github.com/vbenjs/vue-vben-admin/issues"
+    "url": "https://github.com/medojs/vue-medo-admin/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "url": "git+https://github.com/medojs/vue-medo-admin.git",
     "directory": "packages/types"
   },
   "license": "MIT",

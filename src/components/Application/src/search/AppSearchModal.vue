@@ -65,7 +65,7 @@
   // @ts-ignore
   import vClickOutside from '/@/directives/clickOutside';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { useRefs } from '@vben/hooks';
+  import { useRefs } from '@medo/hooks';
   import { useMenuSearch } from './useMenuSearch';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useAppInject } from '/@/hooks/web/useAppInject';

@@ -19,7 +19,7 @@
   </a-cascader>
 </template>
 <script lang="ts">
-  import { type Recordable } from '@vben/types';
+  import { type Recordable } from '@medo/types';
   import { defineComponent, PropType, ref, unref, watch, watchEffect } from 'vue';
   import { Cascader } from 'ant-design-vue';
   import { propTypes } from '/@/utils/propTypes';
