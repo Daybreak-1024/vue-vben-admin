@@ -87,5 +87,5 @@ export default {
     //   },
     // ],
   },
-  globals: { defineOptions: 'readonly' },
+  globals: { defineOptions: 'readonly', ComponentRef: true },
 };

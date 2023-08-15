@@ -2,6 +2,8 @@ declare module '*.vue' {
   import { DefineComponent } from 'vue';
 
   const Component: DefineComponent<{}, {}, any>;
+  export type AAA = '_self' | '_blank';
+
   export default Component;
 }
 

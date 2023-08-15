@@ -7,7 +7,7 @@
 
       <a @click="openWindow(DOC_URL)">{{ t('layout.footer.onlineDocument') }}</a>
     </div>
-    <div>Copyright &copy;2020 Vben Admin</div>
+    <div>Copyright &copy;2020 medo Admin</div>
   </Footer>
 </template>
 
@@ -36,6 +36,7 @@
       const { prefixCls } = useDesign('layout-footer');
 
       const footerRef = ref<ComponentRef>(null);
+
       const { setFooterHeight } = useLayoutHeight();
 
       const getShowLayoutFooter = computed(() => {
