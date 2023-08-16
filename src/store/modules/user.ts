@@ -3,11 +3,17 @@ import type { ErrorMessageMode } from '/#/axios';
 import { defineStore } from 'pinia';
 import { store } from '/@/store';
 import { RoleEnum } from '/@/enums/roleEnum';
-import { PageEnum } from '/@/enums/pageEnum';
-import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
-import { getAuthCache, setAuthCache } from '/@/utils/auth';
-import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
+import { PageEnum } from '@/enums/pageEnum';
+import {
+  ROLES_KEY,
+  USER_INFO_KEY,
+  PERMISSION_KEY,
+  TOKEN_KEY,
+  CacheTypeEnum,
+} from '/@/enums/cacheEnum';
+import { getAuthCache, setAuthCache, clearAuthCache } from '/@/utils/auth';
+import { SignInParams } from '/@/api/sys/model/userModel';
+import { getUserByToken, queryAllPermissionInService, signIn } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -21,6 +27,7 @@ interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
   roleList: RoleEnum[];
+  permissionList: string[];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
 }
@@ -34,6 +41,8 @@ export const useUserStore = defineStore({
     token: undefined,
     // roleList
     roleList: [],
+    // permissionList
+    permissionList: [],
     // Whether the login expired
     sessionTimeout: false,
     // Last fetch time
@@ -44,10 +53,15 @@ export const useUserStore = defineStore({
       return state.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {};
     },
     getToken(state): string {
-      return state.token || getAuthCache<string>(TOKEN_KEY);
+      return state.token || getAuthCache(TOKEN_KEY, CacheTypeEnum.COOKIES);
     },
     getRoleList(state): RoleEnum[] {
-      return state.roleList.length > 0 ? state.roleList : getAuthCache<RoleEnum[]>(ROLES_KEY);
+      return state.roleList.length > 0 ? this.roleList : getAuthCache<RoleEnum[]>(ROLES_KEY);
+    },
+    getPermissionList(state): string[] {
+      return state.permissionList.length > 0
+        ? state.permissionList
+        : getAuthCache<string[]>(PERMISSION_KEY);
     },
     getSessionTimeout(state): boolean {
       return !!state.sessionTimeout;
@@ -59,11 +73,19 @@ export const useUserStore = defineStore({
   actions: {
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
-      setAuthCache(TOKEN_KEY, info);
+      setAuthCache(TOKEN_KEY, info, CacheTypeEnum.COOKIES);
+    },
+    removeToken(info: string | undefined) {
+      this.token = info ? info : ''; // for null or undefined value
+      setAuthCache(TOKEN_KEY, info, CacheTypeEnum.COOKIES);
     },
     setRoleList(roleList: RoleEnum[]) {
       this.roleList = roleList;
       setAuthCache(ROLES_KEY, roleList);
+    },
+    setPermissionList(permissionList: string[]) {
+      this.permissionList = permissionList;
+      setAuthCache(PERMISSION_KEY, permissionList);
     },
     setUserInfo(info: UserInfo | null) {
       this.userInfo = info;
@@ -74,25 +96,28 @@ export const useUserStore = defineStore({
       this.sessionTimeout = flag;
     },
     resetState() {
+      //清空store, 缓存数据不做处理
       this.userInfo = null;
       this.token = '';
       this.roleList = [];
       this.sessionTimeout = false;
+      this.permissionList = [];
+      //清空所有cookies，确保退出操作
+      clearAuthCache(true, CacheTypeEnum.COOKIES);
     },
     /**
      * @description: login
      */
     async login(
-      params: LoginParams & {
+      params: SignInParams & {
         goHome?: boolean;
         mode?: ErrorMessageMode;
       },
-    ): Promise<GetUserInfoModel | null> {
+    ): Promise<UserInfo | null> {
       try {
         const { goHome = true, mode, ...loginParams } = params;
-        const data = await loginApi(loginParams, mode);
-        const { token } = data;
-
+        const token = await signIn(loginParams, mode);
+        console.log(token, 'token');
         // save token
         this.setToken(token);
         return this.afterLoginAction(goHome);
@@ -100,10 +125,17 @@ export const useUserStore = defineStore({
         return Promise.reject(error);
       }
     },
-    async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
+    async afterLoginAction(goHome?: boolean): Promise<UserInfo | null> {
       if (!this.getToken) return null;
       // get user info
       const userInfo = await this.getUserInfoAction();
+      const { createMessage } = useMessage();
+      //TODO:需要修改对应平台标识
+      if (!this.permissionList.includes('mdwt:DescribeWtDashboard')) {
+        createMessage.error('该用户未设定任何角色，无法登陆');
+        this.logout();
+        return null;
+      }
 
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
@@ -124,7 +156,7 @@ export const useUserStore = defineStore({
     },
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
-      const userInfo = await getUserInfo();
+      const userInfo = await getUserByToken();
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
         const roleList = roles.map((item) => item.value) as RoleEnum[];
@@ -133,6 +165,17 @@ export const useUserStore = defineStore({
         userInfo.roles = [];
         this.setRoleList([]);
       }
+      const permission = await queryAllPermissionInService({
+        companyID: userInfo.companyID,
+        serviceName: null,
+      });
+      const permissions = permission
+        .filter((item) => item.serviceName == 'mdwt' || item.serviceName == 'mdmbase')
+        .map((item) => {
+          return item.serviceName + ':' + item.permissionToken;
+        });
+
+      this.setPermissionList(permissions);
       this.setUserInfo(userInfo);
       return userInfo;
     },
@@ -140,16 +183,13 @@ export const useUserStore = defineStore({
      * @description: logout
      */
     async logout(goLogin = false) {
-      if (this.getToken) {
-        try {
-          await doLogout();
-        } catch {
-          console.log('注销Token失败');
-        }
-      }
+      //清空所有缓存及store记录
       this.setToken(undefined);
       this.setSessionTimeout(false);
       this.setUserInfo(null);
+      this.setPermissionList([]);
+      //清空所有cookies，确保退出操作
+      clearAuthCache(true, CacheTypeEnum.COOKIES);
       goLogin && router.push(PageEnum.BASE_LOGIN);
     },
 

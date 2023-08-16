@@ -13,10 +13,12 @@ import {
   APP_LOCAL_CACHE_KEY,
   APP_SESSION_CACHE_KEY,
   MULTIPLE_TABS_KEY,
+  PERMISSION_KEY,
 } from '/@/enums/cacheEnum';
 import { DEFAULT_CACHE_TIME } from '/@/settings/encryptionSetting';
 import { toRaw } from 'vue';
 import { pick, omit } from 'lodash-es';
+import Cookies from 'js-cookie';
 
 interface BasicStore {
   [TOKEN_KEY]: string | number | null | undefined;
@@ -25,18 +27,32 @@ interface BasicStore {
   [LOCK_INFO_KEY]: LockInfo;
   [PROJ_CFG_KEY]: ProjectConfig;
   [MULTIPLE_TABS_KEY]: RouteLocationNormalized[];
+  [PERMISSION_KEY]: string | number | null | undefined;
 }
 
 type LocalStore = BasicStore;
 
 type SessionStore = BasicStore;
 
+type CookiesStore = BasicStore;
+
 export type BasicKeys = keyof BasicStore;
 type LocalKeys = keyof LocalStore;
 type SessionKeys = keyof SessionStore;
+type CookiesKeys = keyof CookiesStore;
 
 const ls = createLocalStorage();
 const ss = createSessionStorage();
+//清除所有cookie函数
+const ck = Cookies;
+ck.clear = () => {
+  const keys = document.cookie.match(/[^ =;]+(?==)/g);
+  if (keys) {
+    for (let i = keys.length; i--; ) {
+      document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString() + ';max-age=0';
+    }
+  }
+};
 
 const localMemory = new Memory(DEFAULT_CACHE_TIME);
 const sessionMemory = new Memory(DEFAULT_CACHE_TIME);
@@ -86,12 +102,28 @@ export class Persistent {
     immediate && ss.clear();
   }
 
+  static getCookies<T>(key: CookiesKeys) {
+    return ck.get(key) as Nullable<T>;
+  }
+
+  static setCookies(key: CookiesKeys, value: CookiesStore[CookiesKeys], immediate = true): void {
+    immediate && ck.set(key, value);
+  }
+
+  static removeCookies(key: CookiesKeys, immediate = true): void {
+    immediate && ck.remove(key);
+  }
+  static clearCookies(immediate = true): void {
+    immediate && ck.clear();
+  }
+
   static clearAll(immediate = false) {
     sessionMemory.clear();
     localMemory.clear();
     if (immediate) {
       ls.clear();
       ss.clear();
+      ck.clear();
     }
   }
 }

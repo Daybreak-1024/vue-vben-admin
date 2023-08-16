@@ -19,6 +19,19 @@ export enum RequestEnum {
 }
 
 /**
+ * @description: Request platform set
+ */
+export enum UrlPrefixEnum {
+  IOT = '/iot',
+  AUTH = '/auth',
+  CS = '/cs',
+  DOC = '/doc',
+  MDNET = '/mdnet',
+  WT = '/wt',
+  BASE = '/base',
+}
+
+/**
  * @description:  contentType
  */
 export enum ContentTypeEnum {

@@ -1,5 +1,5 @@
 // token key
-export const TOKEN_KEY = 'TOKEN__';
+export const TOKEN_KEY = 'Authorization';
 
 export const LOCALE_KEY = 'LOCALE__';
 
@@ -25,7 +25,14 @@ export const APP_LOCAL_CACHE_KEY = 'COMMON__LOCAL__KEY__';
 // base global session key
 export const APP_SESSION_CACHE_KEY = 'COMMON__SESSION__KEY__';
 
+// base global session key
+export const APP_COOKIES_CACHE_KEY = 'COMMON__COOKIES__KEY__';
+// new add
+// permisson info key
+export const PERMISSION_KEY = 'PERMISSION_KEY__';
+
 export enum CacheTypeEnum {
   SESSION,
   LOCAL,
+  COOKIES,
 }

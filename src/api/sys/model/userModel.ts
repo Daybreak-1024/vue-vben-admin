@@ -5,19 +5,23 @@ export interface LoginParams {
   username: string;
   password: string;
 }
+export interface SignInParams {
+  account: string;
+  password: string;
+}
 
 export interface RoleInfo {
   roleName: string;
   value: string;
 }
 
-/**
- * @description: Login interface return value
- */
-export interface LoginResultModel {
-  userId: string | number;
-  token: string;
-  role: RoleInfo;
+export interface PermissionResultModel {
+  id: number;
+  name: string;
+  permissionToken: string;
+  serviceName: string;
+  permissionDesc: string;
+  exValues: string;
 }
 
 /**
@@ -35,4 +39,20 @@ export interface GetUserInfoModel {
   avatar: string;
   // 介绍
   desc?: string;
+}
+
+export interface QueryCompanyOrganizationParams {
+  companyID: number;
+  fetchDepth: number;
+  includeSubCompany?: boolean;
+  includeDepartment?: boolean;
+  includeUser?: boolean;
+}
+
+export interface UserInCompanyParamsModel {
+  companyName?: any;
+}
+export interface UserInCompanyResultModel {
+  companyID: number;
+  companyName: string;
 }
