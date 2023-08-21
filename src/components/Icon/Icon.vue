@@ -29,7 +29,9 @@
   import Iconify from '@purge-icons/generated';
   import { isString } from '/@/utils/is';
   import { propTypes } from '/@/utils/propTypes';
+  import medoIcon from '@/components/Icon/data/iconify.json';
 
+  Iconify.addCollection(medoIcon);
   const SVG_END_WITH_FLAG = '|svg';
   export default defineComponent({
     name: 'Icon',

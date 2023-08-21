@@ -2,13 +2,13 @@
   "name": "@medo/stylelint-config",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://github.com/medojs/vue-medo-admin",
+  "homepage": "https://gitlab.shmedo.cn/middle-platform/gis/frontend/git-config-web",
   "bugs": {
-    "url": "https://github.com/medojs/vue-medo-admin/issues"
+    "url": "https://gitlab.shmedo.cn/middle-platform/gis/frontend/git-config-web/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/medojs/vue-medo-admin.git",
+    "url": "git+https://gitlab.shmedo.cn/middle-platform/gis/frontend/git-config-web.git",
     "directory": "internal/stylelint-config"
   },
   "license": "MIT",

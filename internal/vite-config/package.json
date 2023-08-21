@@ -2,13 +2,10 @@
   "name": "@medo/vite-config",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://github.com/medojs/vue-medo-admin",
-  "bugs": {
-    "url": "https://github.com/medojs/vue-medo-admin/issues"
-  },
+  "homepage": "https://gitlab.shmedo.cn/middle-platform/gis/frontend/git-config-web",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/medojs/vue-medo-admin.git",
+    "url": "git+https://gitlab.shmedo.cn/middle-platform/gis/frontend/git-config-web.git",
     "directory": "internal/vite-config"
   },
   "license": "MIT",
