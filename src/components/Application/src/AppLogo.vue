@@ -17,7 +17,6 @@
   import { useMenuSetting } from '/@/hooks/setting/useMenuSetting';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { PageEnum } from '/@/enums/pageEnum';
-  // import { useUserStore } from '/@/store/modules/user';
 
   const props = defineProps({
     /**
@@ -36,7 +35,6 @@
 
   const { prefixCls } = useDesign('app-logo');
   const { getCollapsedShowTitle } = useMenuSetting();
-  // const userStore = useUserStore();
   const { title } = useGlobSetting();
   const go = useGo();
 

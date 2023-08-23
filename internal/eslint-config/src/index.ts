@@ -87,5 +87,13 @@ export default {
     //   },
     // ],
   },
-  globals: { defineOptions: 'readonly', ComponentRef: true },
+  globals: {
+    defineOptions: 'readonly',
+    ComponentRef: true,
+    LabelValueOptions: true,
+    ChangeEvent: true,
+    PropType: true,
+    Recordable: true,
+    Fn: true,
+  },
 };
