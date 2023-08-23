@@ -116,6 +116,7 @@ export const usePermissionStore = defineStore({
 
       let routes: AppRouteRecordRaw[] = [];
       const roleList = toRaw(userStore.getRoleList) || [];
+      const permissionList = toRaw(userStore.getPermissionList) || [];
       const { permissionMode = projectSetting.permissionMode } = appStore.getProjectConfig;
 
       // 路由过滤器 在 函数filter 作为回调传入遍历使用
@@ -126,6 +127,16 @@ export const usePermissionStore = defineStore({
         if (!roles) return true;
         // 进行角色权限判断
         return roleList.some((role) => roles.includes(role));
+      };
+
+      // 过滤无权限的路由
+      const routePermissonFilter = (route: AppRouteRecordRaw) => {
+        const { meta } = route;
+        // 抽出角色
+        const { permission } = meta || {};
+        if (!permission) return true;
+        // 进行角色权限判断
+        return permissionList.some((item) => permissionList.includes(item));
       };
 
       const routeRemoveIgnoreFilter = (route: AppRouteRecordRaw) => {
@@ -186,6 +197,8 @@ export const usePermissionStore = defineStore({
           routes = filter(asyncRoutes, routeFilter);
           // 对一级路由再次根据角色权限过滤
           routes = routes.filter(routeFilter);
+          // 对一级路由再次根据permission权限过滤
+          routes = routes.filter(routePermissonFilter);
           // 将路由转换成菜单
           const menuList = transformRouteToMenu(routes, true);
           // 移除掉 ignoreRoute: true 的路由 非一级路由
